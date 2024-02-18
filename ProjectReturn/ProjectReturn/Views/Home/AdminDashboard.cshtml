@@ -1,0 +1,84 @@
+﻿@model AdminDashboardViewModel
+
+<h1>Admin Dashboard</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>User Accounts</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>Users Name</th>
+            <th>Users Adress</th>
+            <th>Users Email</th>
+        </tr>
+        @foreach (var userDetail in Model.AppUsers)
+        {
+            <tr>
+                <td>@userDetail.Name</td>
+                <td>@userDetail.Address</td>
+                <td>@userDetail.Email</td>
+            </tr>
+        }
+    </tbody>
+    <tbody>
+        <tr>
+            <th>All goods</th>
+        </tr>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+        </tr>
+        @foreach (var nameoftheProducts in Model.Cars)
+        {
+            <tr>
+                <td>@nameoftheProducts.Name</td>
+                <td>@nameoftheProducts.price</td>
+            </tr>
+        }
+    </tbody>
+    <tbody>
+        <tr>
+            <th>All Categories</th>
+        </tr>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+        </tr>
+        @foreach (var categories in Model.Categories)
+        {
+            <tr>
+                <td>@categories.Name</td>
+                <td>@categories.Description</td>
+            </tr>
+        }
+    </tbody>
+    <tbody>
+        <tr>
+            <th>Sales</th>
+        </tr>
+        <tr>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Address</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Order Time</th>
+        </tr>
+        @foreach (var orderDetail in Model.Orders)
+        {
+            <tr>
+                <td>@orderDetail.Name</td>
+                <td>@orderDetail.Surname</td>
+                <td>@orderDetail.Adress</td>
+                <td>@orderDetail.Phone</td>
+                <td>@orderDetail.email</td>
+                <td>@orderDetail.orderTime</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+

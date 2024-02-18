@@ -5,18 +5,18 @@ namespace ProjectReturn.Data.Model;
 public class ShopCart
 {
 	private readonly AppDBContent appDBContent;
+	public string ShopCartId { get; set; }
+	public List<ShopCartItem> ListShopItems { get; set; }
 
 	public ShopCart(AppDBContent appDBContent)
 	{
 		this.appDBContent = appDBContent;
+		this.ListShopItems = new List<ShopCartItem>();
 	}
-
-	public string ShopCartId { get; set; }
-	public List<ShopCartItem> ListShopItems { get; set; }
 
 	public static ShopCart GetCart(IServiceProvider services)
 	{
-		ISession session = services.GetRequiredService<IHttpContextAccessor>()?.HttpContext?.Session;
+		ISession session = services.GetRequiredService<IHttpContextAccessor>()?.HttpContext.Session;
 		var context = services.GetService<AppDBContent>();
 		string shopCartId = session.GetString("CartID") ?? Guid.NewGuid().ToString();
 
@@ -37,6 +37,9 @@ public class ShopCart
 	}
 	public List<ShopCartItem> getShopItems()
 	{
-		return appDBContent.ShopCartItem.Where(c => c.ShopCartId == ShopCartId).Include(s => s.car).ToList();
+		return appDBContent.ShopCartItem
+						   .Where(c => c.ShopCartId != ShopCartId)
+						   .Include(s => s.car) 
+						   .ToList();
 	}
 }

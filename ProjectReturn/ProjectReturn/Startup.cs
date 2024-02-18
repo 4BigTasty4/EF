@@ -1,51 +1,87 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using ProjectReturn.Data;
 using ProjectReturn.Data.Interfaces;
 using ProjectReturn.Data.Repository;
 using ProjectReturn.Data.Model;
+using Microsoft.AspNetCore.Identity;
 
-namespace ProjectReturn;
-
-public class Startup
+namespace ProjectReturn
 {
-    private IConfigurationRoot _confSting;
-
-	public Startup(Microsoft.AspNetCore.Hosting.IHostingEnvironment hostEnv)
+    public class Startup
     {
-        _confSting = new ConfigurationBuilder().SetBasePath(hostEnv.ContentRootPath).AddJsonFile("dbsettings.json").Build();
+        private IConfiguration _configuration;
+
+        public Startup(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddDbContext<AppDBContent>(options => options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddIdentity<AppUser, IdentityRole>(options =>
+            {
+                options.Password.RequiredUniqueChars = 0;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 8;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireLowercase = false;
+            })
+            .AddEntityFrameworkStores<AppDBContent>()
+            .AddDefaultTokenProviders();
+
+            services.AddControllersWithViews();
+
+            services.AddTransient<IAllCars, CarRepository>();
+            services.AddTransient<ICarsCategory, CategoryRepository>();
+            services.AddTransient<IAllOrders, OrdersRepository>();
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped(sp => ShopCart.GetCart(sp));
+
+            services.AddMemoryCache();
+            services.AddSession();
+        }
+
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            app.UseDeveloperExceptionPage();
+            app.UseStatusCodePages();
+            app.UseStaticFiles();
+            app.UseSession();
+            app.UseRouting();
+
+            app.UseHttpsRedirection();
+
+
+            app.UseAuthorization();
+
+            //app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+                endpoints.MapControllerRoute(
+                    name: "categoryFilter",
+                    pattern: "Car/{action}/{category?}",
+                    defaults: new { Controller = "Car", action = "List" });
+            });
+
+            using (var scope = app.ApplicationServices.CreateScope())
+            {
+                AppDBContent content = scope.ServiceProvider.GetRequiredService<AppDBContent>();
+                DBObjects.Initial(content);
+            }
+        }
     }
-
-    public void ConfigureServices(IServiceCollection services)
-    {
-		services.AddDbContext<AppDBContent>(options => options.UseSqlServer(_confSting.GetConnectionString("DefaultConnection")));
-		services.AddTransient<IAllCars, CarRepository>();
-        services.AddTransient<ICarsCategory, CategoryRepository>();
-        services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-		services.AddScoped(sp => ShopCart.GetCart(sp));
-
-
-		services.AddMvc();
-		services.Configure<MvcOptions>(options =>
-		{
-			options.EnableEndpointRouting = false;
-		});
-		services.AddMemoryCache();
-		services.AddSession();
-	}
-
-    public void Configure(IApplicationBuilder app)
-    {
-        app.UseDeveloperExceptionPage();
-        app.UseStatusCodePages();
-		app.UseStaticFiles();
-		app.UseSession();
-		app.UseMvcWithDefaultRoute();
-
-		using (var scope = app.ApplicationServices.CreateScope())
-		{
-			AppDBContent content = scope.ServiceProvider.GetRequiredService<AppDBContent>();
-			DBObjects.Initial(content);
-		}
-	}
 }

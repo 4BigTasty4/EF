@@ -39,7 +39,6 @@ C:\Users\BigTasty\Desktop\VisStudio\ProjectReturn\ProjectReturn\bin\Debug\net8.0
 C:\Users\BigTasty\Desktop\VisStudio\ProjectReturn\ProjectReturn\bin\Debug\net8.0\wwwroot\img\ford.jpg
 C:\Users\BigTasty\Desktop\VisStudio\ProjectReturn\ProjectReturn\bin\Debug\net8.0\wwwroot\css\bootstrap.min.css
 C:\Users\BigTasty\Desktop\VisStudio\ProjectReturn\ProjectReturn\bin\Debug\net8.0\wwwroot\js\bootstrap.min.js
-C:\Users\BigTasty\Desktop\VisStudio\ProjectReturn\ProjectReturn\bin\Debug\net8.0\dbsettings.json
 C:\Users\BigTasty\Desktop\VisStudio\ProjectReturn\ProjectReturn\bin\Debug\net8.0\Azure.Core.dll
 C:\Users\BigTasty\Desktop\VisStudio\ProjectReturn\ProjectReturn\bin\Debug\net8.0\Azure.Identity.dll
 C:\Users\BigTasty\Desktop\VisStudio\ProjectReturn\ProjectReturn\bin\Debug\net8.0\Humanizer.dll
@@ -145,3 +144,9 @@ C:\Users\BigTasty\Desktop\VisStudio\ProjectReturn\ProjectReturn\bin\Debug\net8.0
 C:\Users\BigTasty\Desktop\VisStudio\ProjectReturn\ProjectReturn\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
 C:\Users\BigTasty\Desktop\VisStudio\ProjectReturn\ProjectReturn\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\BigTasty\Desktop\VisStudio\ProjectReturn\ProjectReturn\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
+C:\Users\BigTasty\Desktop\VisStudio\ProjectReturn\ProjectReturn\bin\Debug\net8.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Users\BigTasty\Desktop\VisStudio\ProjectReturn\ProjectReturn\bin\Debug\net8.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Users\BigTasty\Desktop\VisStudio\ProjectReturn\ProjectReturn\bin\Debug\net8.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\BigTasty\Desktop\VisStudio\ProjectReturn\ProjectReturn\bin\Debug\net8.0\Microsoft.Extensions.Identity.Core.dll
+C:\Users\BigTasty\Desktop\VisStudio\ProjectReturn\ProjectReturn\bin\Debug\net8.0\Microsoft.Extensions.Identity.Stores.dll
+C:\Users\BigTasty\Desktop\VisStudio\ProjectReturn\ProjectReturn\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
