@@ -1,10 +1,14 @@
-﻿@model ShopCartViewModel
-<div class="container text-center">
+﻿<div class="container text-center">
     @foreach (var el in Model.shopcart.ListShopItems)
     {
         <div class="alert alert-warning mt-3">
             <b>Auto:</b> @el.car.Name<br />
-            <b>Price:</b> @el.car.price.ToString("c")
+            <b>Price:</b> @el.car.price.ToString("c")<br />
+
+            <form method="post" asp-action="removeFromCart" asp-controller="ShopCart">
+                <input type="hidden" name="id" value="@el.car.Id" />
+                <button type="submit" class="btn btn-danger">Remove from cart</button>
+            </form>
         </div>
     }
     <hr />

@@ -38,12 +38,16 @@ namespace ProjectReturn
 
             services.AddControllersWithViews();
 
+            services.Configure<PasswordHasherOptions>(options =>
+            options.CompatibilityMode = PasswordHasherCompatibilityMode.IdentityV2);
+
             services.AddTransient<IAllCars, CarRepository>();
             services.AddTransient<ICarsCategory, CategoryRepository>();
             services.AddTransient<IAllOrders, OrdersRepository>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddScoped(sp => ShopCart.GetCart(sp));
+            services.AddScoped<ShopCart>();
+            //services.AddScoped(sp => ShopCart.GetCart(sp));
 
             services.AddMemoryCache();
             services.AddSession();
@@ -60,10 +64,10 @@ namespace ProjectReturn
             app.UseHttpsRedirection();
 
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
-            //app.UseAuthentication();
-            app.UseAuthorization();
+
 
             app.UseEndpoints(endpoints =>
             {

@@ -1,5 +1,7 @@
-﻿﻿@using ProjectReturn.ViewModels;
+﻿@using Microsoft.AspNetCore.Identity
+﻿@using ProjectReturn.ViewModels;
 @model LoginViewModel
+@inject SignInManager<AppUser> signInManager
 
 @{
     ViewData["Title"] = "Login";

@@ -4,6 +4,15 @@ using System.Web.Mvc;
 
 namespace ProjectReturn.Data.Model;
 
+public enum OrderStatus
+{
+    Pending,        // В ожидании
+    Processing,     // В процессе обработки
+    Completed,      // Завершен
+    Cancelled       // Отменен
+                    // Добавьте другие статусы по необходимости
+}
+
 public class Order
 {
 	[BindNever]
@@ -36,7 +45,9 @@ public class Order
 	[Required(ErrorMessage = "email Length at Least 5 Characters")]
 	public string email { get; set; }
 
-	
-	public DateTime orderTime { get; set; }
+    [Display(Name = "Order Status")]
+    public OrderStatus Status { get; set; }
+
+    public DateTime orderTime { get; set; }
 	public List<OrderDetail> orderDetails { get; set; }
 }

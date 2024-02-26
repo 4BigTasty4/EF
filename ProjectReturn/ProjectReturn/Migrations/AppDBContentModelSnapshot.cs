@@ -316,6 +316,9 @@ namespace ProjectReturn.Migrations
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.Property<string>("Surname")
                         .IsRequired()
                         .HasMaxLength(25)
@@ -336,11 +339,11 @@ namespace ProjectReturn.Migrations
 
             modelBuilder.Entity("ProjectReturn.Data.Model.OrderDetail", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
                     b.Property<int>("CarID")
                         .HasColumnType("int");
@@ -351,7 +354,7 @@ namespace ProjectReturn.Migrations
                     b.Property<long>("price")
                         .HasColumnType("bigint");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
                     b.HasIndex("CarID");
 
@@ -369,6 +372,10 @@ namespace ProjectReturn.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
                     b.Property<string>("ShopCartId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

@@ -66,6 +66,7 @@
             <th>Phone</th>
             <th>Email</th>
             <th>Order Time</th>
+            <th>Change Status</th>
         </tr>
         @foreach (var orderDetail in Model.Orders)
         {
@@ -76,9 +77,20 @@
                 <td>@orderDetail.Phone</td>
                 <td>@orderDetail.email</td>
                 <td>@orderDetail.orderTime</td>
+                <td>
+                    <form asp-controller="Order" asp-action="ChangeOrderStatus" method="post">
+                        <input type="hidden" name="orderId" value="@orderDetail.Id" />
+                        <select name="newStatus">
+                            <option value="Pending" selected="@((orderDetail.Status == OrderStatus.Pending) ? "selected" : null)">Pending</option>
+                            <option value="Processing" selected="@((orderDetail.Status == OrderStatus.Processing) ? "selected" : null)">Processing</option>
+                            <option value="Completed" selected="@((orderDetail.Status == OrderStatus.Completed) ? "selected" : null)">Completed</option>
+                            <option value="Cancelled" selected="@((orderDetail.Status == OrderStatus.Cancelled) ? "selected" : null)">Cancelled</option>
+
+                        </select>
+                        <button type="submit">Change Status</button>
+                    </form>
+                </td>
             </tr>
         }
     </tbody>
 </table>
-
-
