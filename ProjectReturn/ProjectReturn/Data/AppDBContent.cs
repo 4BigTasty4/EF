@@ -12,7 +12,7 @@ public class AppDBContent : IdentityDbContext<AppUser>
 
 	}
 
-    public DbSet<Car> Car { get; set; }
+	public DbSet<Car> Car { get; set; }
 	public DbSet<Category> Category { get; set; }
 	public DbSet<ShopCartItem> ShopCartItem { get; set; }
 	public DbSet<AppUser> AppUser { get; set; }

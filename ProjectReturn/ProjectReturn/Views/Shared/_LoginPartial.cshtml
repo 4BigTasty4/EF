@@ -5,10 +5,10 @@
 <ul class="navbar-nav" style="background-color: aliceblue">
     @if (signInManager.IsSignedIn(User))
     {
-        var user = await userManager.GetUserAsync(User);
+        var currentUser = await userManager.GetUserAsync(User);
         <li class="nav-item">
             <a class="nav-link text-dark" asp-action="Logout" asp-controller="Account">
-                @user.Email Logout
+                @currentUser.Email Logout
             </a>
         </li>
     }

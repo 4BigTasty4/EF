@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "b4OZdhpqwz1H6p27rqfj3UpsHFCWT7KJXREa8UGFTN6q5ym+rcA5810BIhC5mxUELPDotHQCbt//FVhjSBwSAQ==",
+  "dgSpecHash": "4ECdpLSyIid7cTemobKUsmZQnLdhf8OhfoKaPQDIEcrX2MA5mIeFw6YsvagpDPG8rff4a9Oser9nxf8pdUW1ng==",
   "success": true,
   "projectFilePath": "C:\\Users\\BigTasty\\Desktop\\VisStudio\\ProjectReturn\\ProjectReturn\\ProjectReturn.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\BigTasty\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\BigTasty\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",
+    "C:\\Users\\BigTasty\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\BigTasty\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\BigTasty\\.nuget\\packages\\json\\1.0.1\\json.1.0.1.nupkg.sha512",
     "C:\\Users\\BigTasty\\.nuget\\packages\\microsoft.aspnet.mvc\\5.3.0\\microsoft.aspnet.mvc.5.3.0.nupkg.sha512",

@@ -34,7 +34,6 @@ public class ShopCartController : Controller
     {
         if (!User.Identity.IsAuthenticated)
         {
-            // Перенаправляем анонимного пользователя на страницу входа
             return RedirectToAction("Login", "Account");
         }
 
@@ -42,7 +41,7 @@ public class ShopCartController : Controller
         if (item != null)
         {
             var user = await _userManager.GetUserAsync(User);
-            _shopCart.AddToCart(item, user.Id); // Передаем также идентификатор пользователя
+            _shopCart.AddToCart(item, user.Id);
         }
         return RedirectToAction("Index");
     }
@@ -50,7 +49,7 @@ public class ShopCartController : Controller
 
     public IActionResult removeFromCart(int id)
     {
-        _shopCart.RemoveFromCart(id); // Передаем идентификатор товара для удаления
+        _shopCart.RemoveFromCart(id);
         return RedirectToAction("Index");
     }
 }

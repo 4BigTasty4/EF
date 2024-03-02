@@ -1,91 +1,145 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using ProjectReturn.Data;
 using ProjectReturn.Data.Interfaces;
 using ProjectReturn.Data.Model;
-using System.Security.Claims;
-using System.Web.Helpers;
-using System.Web.Mvc;
+using System.Threading.Tasks;
 
-namespace ProjectReturn.Controllers;
-
-public class OrderController : Microsoft.AspNetCore.Mvc.Controller
+namespace ProjectReturn.Controllers
 {
-    private readonly IAllOrders allOrders;
-    private readonly ShopCart shopCart;
-    private readonly UserManager<AppUser> userManager;
-
-    public OrderController(IAllOrders allOrders, ShopCart shopCart, UserManager<AppUser> userManager)
+    public class OrderController : Controller
     {
-        this.allOrders = allOrders;
-        this.shopCart = shopCart;
-        this.userManager = userManager;
-    }
+        private readonly UserManager<AppUser> _userManager;
+        private readonly IAllOrders _allOrders;
+        private readonly ShopCart _shopCart;
 
-    public IActionResult Checkout()
-    {
-        return View();
-    }
+        private string _currentUserEmail;
 
-	[Microsoft.AspNetCore.Mvc.HttpPost]
-	public IActionResult Checkout(Order order)
-	{
-        shopCart.ListShopItems = shopCart.getShopItems();
-
-        if(shopCart.ListShopItems.Count == 0)
+        public OrderController(UserManager<AppUser> userManager, IAllOrders allOrders, ShopCart shopCart)
         {
-            ModelState.AddModelError("", "You Must Have a Product");
-            ViewData["ErrorMessage"] = "You must have a product in your cart before proceeding to checkout.";
+            _userManager = userManager;
+            _allOrders = allOrders;
+            _shopCart = shopCart;
+        }
+
+        public async Task<IActionResult> Checkout()
+        {
+            
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            
+            if (currentUser == null)
+            {
+                
+                return RedirectToAction("Login", "Account");
+            }
+
+           
+            string userEmail = currentUser.Email;
+
+           
+            Order newOrder = new Order
+            {
+                email = userEmail
+            };
+
+            return View(newOrder);
+        }
+
+        [HttpPost]
+        public IActionResult Checkout(Order order)
+        {
+           
+            var currentUser = _userManager.GetUserAsync(User).Result;
+
+            
+            if (currentUser == null)
+            {
+                
+                return RedirectToAction("Login", "Account");
+            }
+
+            
+            string userEmail = currentUser.Email;
+
+           
+            if (order.email != userEmail)
+            {
+                
+                ViewBag.ErrorMessage = "Email mismatch. Please make sure you are ordering with your own email address.";
+                return View(order);
+            }
+
+           
+            _shopCart.ListShopItems = _shopCart.getShopItems();
+
+           
+            if (_shopCart.ListShopItems.Count == 0)
+            {
+                ViewBag.ErrorMessage = "You must have a product in your cart before proceeding to checkout.";
+                return View(order);
+            }
+
+           
+            Order newOrder = new Order
+            {
+                Name = order.Name,
+                Surname = order.Surname,
+                email = userEmail,
+                Adress = order.Adress,
+                Phone = order.Phone
+               
+            };
+
+            _allOrders.createOrder(newOrder);
+
+            return RedirectToAction("Complete");
+        }
+
+        public IActionResult Complete()
+        {
+            ViewBag.Message = "Order Processed Successfully";
             return View();
         }
 
-		ModelState.Remove("orderDetails");
-
-		if (ModelState.IsValid)
+        public IActionResult OrderStatus(int id)
         {
-            allOrders.createOrder(order);
-            return RedirectToAction("Complete");
+
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            _currentUserEmail = TempData["Email"] as string;
+
+            var orders = _allOrders.GetOrderById(_currentUserEmail);
+
+            if (orders != null)
+            {
+                return View(orders);
+            }
+            else
+            {
+                return RedirectToAction("NotFound", "Error");
+            }
         }
-        return View(order);
-    }
 
-	public IActionResult Complete()
-    {
-        ViewBag.Message = "Order Processed Successfully";
-        return View();
-	}
 
-    public IActionResult OrderStatus(string email)
-    {
-        var orders = allOrders.GetOrdersByEmail(email);
-
-        if (orders != null && orders.Any())
+        public IActionResult ChangeOrderStatus(int orderId, OrderStatus newStatus, string email)
         {
-            return View(orders);
-        }
-        else
-        {
-            return RedirectToAction("NotFound", "Error");
-        }
-    }
+            var order = _allOrders.GetOrderByUserEmail(email, orderId);
 
+            if (order != null)
+            {
 
-    public IActionResult ChangeOrderStatus(int orderId, OrderStatus newStatus, string email)
-    {
-        
-        var order = allOrders.GetOrderByUserEmail(email, orderId);
+                order.Status = newStatus;
+                _allOrders.UpdateOrder(order);
+                return RedirectToAction("AdminDashboard", "Home");
+            }
+            else
+            {
+                return RedirectToAction("NotFound", "Error");
+            }
+        }
 
-        if (order != null)
-        {
-           
-            order.Status = newStatus;
-            allOrders.UpdateOrder(order);
-            return RedirectToAction("AdminDashboard", "Home");
-        }
-        else
-        {
-            return RedirectToAction("NotFound", "Error");
-        }
     }
 }

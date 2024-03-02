@@ -6,11 +6,11 @@ namespace ProjectReturn.Data.Model;
 
 public enum OrderStatus
 {
-    Pending,        // В ожидании
-    Processing,     // В процессе обработки
-    Completed,      // Завершен
-    Cancelled       // Отменен
-                    // Добавьте другие статусы по необходимости
+    Pending,        
+    Processing,     
+    Completed,      
+    Cancelled       
+                    
 }
 
 public class Order

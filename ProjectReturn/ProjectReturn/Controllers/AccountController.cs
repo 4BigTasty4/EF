@@ -14,7 +14,7 @@ public class AccountController : Controller
     private readonly SignInManager<AppUser> signInManager;
     private readonly UserManager<AppUser> userManager;
     private readonly ShopCart _shopCart;
-    private readonly AppDBContent _appDBContent; // Добавляем зависимость от контекста базы данных
+    private readonly AppDBContent _appDBContent;
 
 
     public AccountController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, ShopCart shopCart, AppDBContent appDBContent)
@@ -22,7 +22,7 @@ public class AccountController : Controller
         this.signInManager = signInManager;
         this.userManager = userManager;
         _shopCart = shopCart;
-        _appDBContent = appDBContent; // Инициализируем _appDBContent через конструктор
+        _appDBContent = appDBContent;
     }
 
     public IActionResult Login()
@@ -45,6 +45,7 @@ public class AccountController : Controller
                 {
                     return RedirectToAction("AdminDashboard", "Home");
                 }
+                TempData["Email"] = user.Email;
                 return RedirectToAction("Index", "Home");
             }
 
@@ -90,16 +91,13 @@ public class AccountController : Controller
 
     public async Task<IActionResult> Logout()
     {
-        // Получаем текущего пользователя
         var user = await userManager.GetUserAsync(User);
 
-        // Удаляем все элементы из корзины для текущего пользователя
         foreach (var item in _shopCart.getShopItems())
         {
             _shopCart.RemoveFromCart(item.car.Id);
         }
 
-        // Выход пользователя из системы
         await signInManager.SignOutAsync();
 
         return RedirectToAction("Index", "Home");

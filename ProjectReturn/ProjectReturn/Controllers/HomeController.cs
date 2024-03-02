@@ -15,6 +15,8 @@ public class HomeController : Controller
 {
     private IAllCars _carRep;
 
+    private string _currentUserId;
+
     private readonly AppDBContent _dbContext;
 
     List<AppUser> _users;

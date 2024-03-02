@@ -20,16 +20,7 @@ namespace ProjectReturn.Data.Repository
             _appDBContent.SaveChanges();
         }
 
-        public List<Order> GetOrdersByEmail(string email)
-        {
-            // Возвращаем список заказов по электронной почте
-            return _appDBContent.Order.Where(o => o.email == email).ToList();
-        }
-
-        public Order GetOrderById(int id)
-        {
-            return _appDBContent.Order.FirstOrDefault(o => o.Id == id);
-        }
+        public Order GetOrderById(string id) => _appDBContent.Order.FirstOrDefault(o => o.email == id);
 
         public void UpdateOrder(Order order)
         {
@@ -40,12 +31,6 @@ namespace ProjectReturn.Data.Repository
         public Order GetOrderByUserEmail(string email, int orderId)
         {
             return _appDBContent.Order.FirstOrDefault(o => o.Id == orderId);
-        }
-
-        // Реализация метода GetOrdersByUserId
-        public List<Order> GetOrdersByUserId(int userId)
-        {
-            return _appDBContent.Order.Where(o => o.Id == userId).ToList();
         }
 
     }
